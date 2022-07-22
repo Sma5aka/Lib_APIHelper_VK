@@ -52,10 +52,24 @@ namespace vkAPIhelper
             string response = await client.GetStringAsync(request_url);
             return response;
         }
-        public async Task<string> get_stats()
+        public async Task<string> get_stats
+            (HttpClient client, string group_ids,
+            string group_id="imct_fefu")
         {
+            string paramers = "";
 
-            return "";
+            string fields = "members_count,description,activity";
+
+            if (group_ids != null)
+            {
+                paramers = $"{paramers}&group_id={group_id}";
+            }
+            paramers = $"{paramers}&fields={fields}";
+
+            string request_url = $"{api_call}groups.getById?{paramers}&access_token={access_token}&v={api_ver}";
+
+            string response = await client.GetStringAsync(request_url);
+            return response;
         }
     }
 }
