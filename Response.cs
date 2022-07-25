@@ -11,10 +11,6 @@
     }
     public class Response_Stats
     {
-
-    }
-    public class _Response_stats
-    {
-
+        public Group_Item[]? response { get; set; }
     }
 }

@@ -137,6 +137,16 @@ namespace vkAPIhelper
             return posts_arr;
         }
         
+        public async Task<Group_Item[]> get_stats
+            (HttpClient client, string group_id = "imct_fefu",
+            string group_ids = "")
+        {
+            string res = await get_stats_json(client, group_id, group_ids);
+
+            Response_Stats response = JsonConvert.DeserializeObject<Response_Stats>(res);
+            Group_Item[] stats_arr = response.response;
+            return stats_arr;
+        }
 
     }
 }
