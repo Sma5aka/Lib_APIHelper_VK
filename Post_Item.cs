@@ -18,7 +18,7 @@
         public Views? views { get; set; }
         public object? post_source { get; set; }
         public string? post_type { get; set; }
-        public object[]? attachments { get; set; }
+        public Attachment[]? attachments { get; set; }
         public Geo? geo { get; set; }
         public int? signer_id { get; set; }
         public int can_pin { get; set; }

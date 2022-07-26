@@ -55,6 +55,7 @@ namespace vkAPIhelper
             string response = await client.GetStringAsync(request_url);
             return response;
         }
+
         public async Task<string> get_stats_json
             (HttpClient client, string group_id = "imct_fefu", 
             string group_ids="")
