@@ -17,7 +17,7 @@ namespace vkAPIhelper
         private string default_group = "imct_fefu";
         private int default_owner_id = -206944280;
         public async Task<string> get_posts_json
-            (HttpClient client, string owner_id = "", uint count = 1, string domain = "imct_fefu", 
+            (HttpClient client, int owner_id = 0, uint count = 1, string domain = "imct_fefu", 
             uint offset = 0, string filter = "", 
             bool extended = false, string fields = "")
         {
@@ -26,7 +26,7 @@ namespace vkAPIhelper
             {
 
                 string paramers = "";
-                if (owner_id != null)
+                if (owner_id != 0)
                 {
                     paramers = $"{paramers}&owner_id={owner_id}";
                 }
@@ -136,7 +136,7 @@ namespace vkAPIhelper
         }
 
         public async Task<Post_Item[]> get_posts
-            (HttpClient client, uint count = 1, string owner_id = "", string domain = "imct_fefu",
+            (HttpClient client, uint count = 1, int owner_id = 0, string domain = "imct_fefu",
             uint offset = 0, string filter = "",
             bool extended = false, string fields = "")
         {
@@ -158,6 +158,35 @@ namespace vkAPIhelper
             return stats_arr;
         }
         
+        public async Task<Post_Item[]> get_post
+            (HttpClient client, string posts, bool extended=false, int copy_history_depth=0, string fields="")
+        {
+            string paramers = "";
+            if (posts != null)
+            {
+                paramers = $"{paramers}&posts={default_owner_id.ToString()}_{posts}";
+            }
+            if (extended)
+            {
+                paramers = $"{paramers}&extended=1";
+            }
+            if(fields != null)
+            {
+                paramers = $"{paramers}&fields={fields}";
+            }
+            if(copy_history_depth != 0)
+            {
+                paramers = $"{paramers}&copy_history_depth={copy_history_depth}";
+            }
+
+            string request_url = $"{api_call}wall.getById?{paramers}&access_token={access_token}&v={api_ver}";
+
+            string res = await client.GetStringAsync(request_url);
+
+            Response_Post response = JsonConvert.DeserializeObject<Response_Post>(res);
+            Post_Item[] posts_arr = response.response;
+            return posts_arr;
+        }
 
         //вот ети все можно каким-нибудь способом сшить в один метод, но пока так)
         public async Task<int[]> get_top_liked(HttpClient client, string owner_id = "", string domain = "imct_fefu")

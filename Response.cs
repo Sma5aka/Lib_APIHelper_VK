@@ -13,4 +13,8 @@
     {
         public Group_Item[]? response { get; set; }
     }
+    public class Response_Post
+    {
+        public Post_Item[]? response { get; set; }
+    }
 }
