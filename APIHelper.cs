@@ -257,7 +257,7 @@ namespace vkAPIhelper
             {
                 if (post.reposts.count > max_reposts)
                 {
-                    max_reposts = post.likes.count;
+                    max_reposts = post.reposts.count;
                     max_reposts_id = post.id;
                 }
             }
