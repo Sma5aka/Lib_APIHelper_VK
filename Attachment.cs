@@ -21,7 +21,7 @@ namespace vkAPIhelper
         public int album_id { get; set; }
         public string? text { get; set; }
         public int date { get; set; }
-        public Photo_Sizes[] sizes { get; set; }
+        public List<Photo_Sizes>? sizes { get; set; }
         public int width { get; set; }
         public int height { get; set; }
     }

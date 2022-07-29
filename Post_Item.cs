@@ -18,7 +18,7 @@
         public Views? views { get; set; }
         public object? post_source { get; set; }
         public string? post_type { get; set; }
-        public Attachment[]? attachments { get; set; }
+        public List<Attachment>? attachments { get; set; }
         public Geo? geo { get; set; }
         public int? signer_id { get; set; }
         public int can_pin { get; set; }
@@ -28,6 +28,6 @@
         public bool is_favorite { get; set; }
         public object? donut { get; set; }
         public int postponed_id { get; set; }
-        public Post_Item[]? copy_history { get; set; }
+        public List<Post_Item>? copy_history { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace vkAPIhelper
 {
@@ -17,52 +18,45 @@ namespace vkAPIhelper
         private string default_group = "imct_fefu";
         private int default_owner_id = -206944280;
         public async Task<string> get_posts_json
-            (HttpClient client, int owner_id = 0, uint count = 1, string domain = "imct_fefu", 
-            uint offset = 0, string filter = "", 
+            (HttpClient client, int owner_id = 0, uint count = 1, string domain = "imct_fefu",
+            uint offset = 0, string filter = "",
             bool extended = false, string fields = "")
         {
 
-            if (count < 100)
+            string paramers = "";
+            if (owner_id != 0)
             {
-
-                string paramers = "";
-                if (owner_id != 0)
-                {
-                    paramers = $"{paramers}&owner_id={owner_id}";
-                }
-                if (domain != null)
-                {
-                    paramers = $"{paramers}&domain={domain}";
-                }
-                if (offset != 0)
-                {
-                    paramers = $"{paramers}&offset={offset.ToString()}";
-                }
-                if (count != 0)
-                {
-                    paramers = $"{paramers}&count={count.ToString()}";
-                }
-                if (filter != null)
-                {
-                    paramers = $"{paramers}&filter={filter}";
-                }
-                if (extended)
-                {
-                    paramers = $"{paramers}&extended={1}";
-                }
-                if (fields != null)
-                {
-                    paramers = $"{paramers}&fields={fields}";
-                }
-
-                string request_url = $"{api_call}wall.get?{paramers}&access_token={access_token}&v={api_ver}";
-
-                string response = await client.GetStringAsync(request_url);
-                return response;
-            } else
-            {
-                return "まだできません";
+                paramers = $"{paramers}&owner_id={owner_id}";
             }
+            if (domain != null)
+            {
+                paramers = $"{paramers}&domain={domain}";
+            }
+            if (offset != 0)
+            {
+                paramers = $"{paramers}&offset={offset.ToString()}";
+            }
+            if (count != 0)
+            {
+                paramers = $"{paramers}&count={count.ToString()}";
+            }
+            if (filter != null)
+            {
+                paramers = $"{paramers}&filter={filter}";
+            }
+            if (extended)
+            {
+                paramers = $"{paramers}&extended={1}";
+            }
+            if (fields != null)
+            {
+                paramers = $"{paramers}&fields={fields}";
+            }
+
+            string request_url = $"{api_call}wall.get?{paramers}&access_token={access_token}&v={api_ver}";
+
+            string response = await client.GetStringAsync(request_url);
+            return response;
         }
 
         public async Task<string> get_stats_json
@@ -135,30 +129,56 @@ namespace vkAPIhelper
             return response;
         }
 
-        public async Task<Post_Item[]> get_posts
+        public async Task<List<Post_Item>> get_posts
             (HttpClient client, uint count = 1, int owner_id = 0, string domain = "imct_fefu",
             uint offset = 0, string filter = "",
             bool extended = false, string fields = "")
         {
-            string res = await get_posts_json(client, owner_id, count, domain, offset, filter, extended, fields);
+            if (count <= 100)
+            {
+                string res = await get_posts_json(client, owner_id, count, domain, offset, filter, extended, fields);
 
-            Response_Posts response = JsonConvert.DeserializeObject<Response_Posts>(res);
-            Post_Item[] posts_arr = response.response.items;
-            return posts_arr;
+                Response_Posts response = JsonConvert.DeserializeObject<Response_Posts>(res);
+                List<Post_Item> posts_arr = response.response.items;
+                return posts_arr;
+            }
+            else
+            {
+                List<Post_Item> all_posts = new List<Post_Item>();
+
+                double t_count = count;
+                double req_count = Math.Ceiling(100/t_count);
+                uint t_offset = 0;
+                
+                for (int i = 0; i <= req_count; i++)
+                {
+                    string res = await get_posts_json(client, owner_id, count, domain, t_offset, filter, extended, fields);
+                    Response_Posts response = JsonConvert.DeserializeObject<Response_Posts>(res);
+                    List<Post_Item> posts_arr = response.response.items;
+                    
+                    foreach (var post in posts_arr)
+                    {
+                        all_posts.Add(post);
+                    }
+
+                    t_offset = t_offset + 100;
+                }
+                return all_posts;
+            }
         }
         
-        public async Task<Group_Item[]> get_stats
+        public async Task<List<Group_Item>> get_stats
             (HttpClient client, string group_id = "imct_fefu",
             string group_ids = "")
         {
             string res = await get_stats_json(client, group_id, group_ids);
 
             Response_Stats response = JsonConvert.DeserializeObject<Response_Stats>(res);
-            Group_Item[] stats_arr = response.response;
+            List<Group_Item> stats_arr = response.response;
             return stats_arr;
         }
         
-        public async Task<Post_Item[]> get_post
+        public async Task<List<Post_Item>> get_post
             (HttpClient client, string posts, bool extended=false, int copy_history_depth=0, string fields="")
         {
             string paramers = "";
@@ -184,7 +204,7 @@ namespace vkAPIhelper
             string res = await client.GetStringAsync(request_url);
 
             Response_Post response = JsonConvert.DeserializeObject<Response_Post>(res);
-            Post_Item[] posts_arr = response.response;
+            List<Post_Item> posts_arr = response.response;
             return posts_arr;
         }
 
@@ -192,8 +212,8 @@ namespace vkAPIhelper
         public async Task<int[]> get_top_liked(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
             //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
-            
-            Post_Item[] posts = await get_posts(client, 99);
+
+            List<Post_Item> posts = await get_posts(client, 99);
 
             int max_likes = 0;
             int max_likes_id = 0;
@@ -213,7 +233,7 @@ namespace vkAPIhelper
         {
             //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
 
-            Post_Item[] posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, 99);
 
             int max_reposts = 0;
             int max_reposts_id = 0;
@@ -233,7 +253,7 @@ namespace vkAPIhelper
         {
             //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
 
-            Post_Item[] posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, 99);
 
             int likes_sum = 0;
             foreach (Post_Item post in posts)
@@ -248,7 +268,7 @@ namespace vkAPIhelper
         {
             //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
 
-            Post_Item[] posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, 99);
 
             int reposts_sum = 0;
             foreach (Post_Item post in posts)

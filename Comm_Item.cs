@@ -11,7 +11,7 @@ namespace vkAPIhelper
         public int reply_to_user { get; set; }
         public int reply_to_post { get; set; }
         public object? attachments { get; set; }
-        public Comm_Item[]? parent_stack { get; set; }
+        public List<Comm_Item>? parent_stack { get; set; }
         public Thread? thread { get; set; }
 
     }
