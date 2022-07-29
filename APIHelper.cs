@@ -144,6 +144,11 @@ namespace vkAPIhelper
             }
             else
             {
+                if(count > (uint)await get_posts_count(client))
+                {
+                    count = (uint)await get_posts_count(client);
+                }
+
                 List<Post_Item> all_posts = new List<Post_Item>();
 
                 double t_count = count;
@@ -167,6 +172,17 @@ namespace vkAPIhelper
             }
         }
         
+        public async Task<int> get_posts_count
+            (HttpClient client, uint count = 1, int owner_id = 0, string domain = "imct_fefu",
+            uint offset = 0, string filter = "",
+            bool extended = false, string fields = "")
+        {
+            string res = await get_posts_json(client, owner_id, count, domain, offset, filter, extended, fields);
+
+            Response_Posts response = JsonConvert.DeserializeObject<Response_Posts>(res);
+            
+            return response.response.count;
+        }
         public async Task<List<Group_Item>> get_stats
             (HttpClient client, string group_id = "imct_fefu",
             string group_ids = "")
@@ -211,9 +227,9 @@ namespace vkAPIhelper
         //вот ети все можно каким-нибудь способом сшить в один метод, но пока так)
         public async Task<int[]> get_top_liked(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
-            //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
+            uint all = (uint)await get_posts_count(client); //variable that need to be delete, because soon, all posts will be getting
 
-            List<Post_Item> posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, all);
 
             int max_likes = 0;
             int max_likes_id = 0;
@@ -231,9 +247,9 @@ namespace vkAPIhelper
 
         public async Task<int[]> get_top_reposted(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
-            //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
+            uint all = (uint)await get_posts_count(client); //variable that need to be delete, because soon, all posts will be getting
 
-            List<Post_Item> posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, all);
 
             int max_reposts = 0;
             int max_reposts_id = 0;
@@ -251,9 +267,9 @@ namespace vkAPIhelper
 
         public async Task<int> get_likes_sum(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
-            //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
+            uint all = (uint)await get_posts_count(client); //variable that need to be delete, because soon, all posts will be getting
 
-            List<Post_Item> posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, all);
 
             int likes_sum = 0;
             foreach (Post_Item post in posts)
@@ -266,9 +282,9 @@ namespace vkAPIhelper
 
         public async Task<int> get_reposts_sum(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
-            //uint all = 100; //variable that need to be delete, because soon, all posts will be getting
+            uint all = (uint)await get_posts_count(client); //variable that need to be delete, because soon, all posts will be getting
 
-            List<Post_Item> posts = await get_posts(client, 99);
+            List<Post_Item> posts = await get_posts(client, all);
 
             int reposts_sum = 0;
             foreach (Post_Item post in posts)
