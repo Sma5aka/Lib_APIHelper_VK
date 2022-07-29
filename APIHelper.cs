@@ -17,6 +17,7 @@ namespace vkAPIhelper
 
         private string default_group = "imct_fefu";
         private int default_owner_id = -206944280;
+        
         public async Task<string> get_posts_json
             (HttpClient client, int owner_id = 0, uint count = 1, string domain = "imct_fefu",
             uint offset = 0, string filter = "",
