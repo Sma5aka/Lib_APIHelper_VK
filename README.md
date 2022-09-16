@@ -1,1 +1,3 @@
-# vkAPIhelper
+# Документация к vkAPIhelper
+
+# Установка
