@@ -57,30 +57,76 @@ public async Task<string> get_posts_json
 * ```api_ver``` - version of api vk
 ## Post_Item
 ### Fields
-* ``` id ```
-* ``` from_id ```
-* ``` created_id ```
-* ``` date ```
-* ``` marked_as_ads ```
-* ``` text ```
-* ``` reply_owner_id ```
-* ``` reply_post_id ```
-* ``` friends_only ```
-* ``` comments ```
-* !!!!!!!!!!! ``` copyrght ```
-* ``` likes ```
-* ``` reposts ```
-* ``` views ```
-* !!!!!!!!!!!``` post_source ```
-* ``` post_type ```
-* ``` attachments ```
-* ``` geo ```
-* ``` signer_id ```
-* ``` can_pin ```
-* ``` can_delete ```
-* ``` can_edit ```
-* ``` is_pinned ```
-* ``` is_favorite ```
-* ``` donut ```
-* ``` postponed_id ```
-* ``` copy_history ```
+* ``` id ``` - id of post as int
+* ``` from_id ``` - 
+* ``` created_id ``` - 
+* ``` date ``` - date of create
+* ``` marked_as_ads ``` - 1 if marked, 0 if not
+* ``` text ``` - text in post
+* ``` reply_owner_id ``` - owner account's id
+* ``` reply_post_id ``` - if reply on other post
+* ``` friends_only ``` - vision
+* ``` comments ``` - branch of main comments, without comment tree
+* !!!!!!!!!!! ``` copyrght ``` - 
+* ``` likes ``` - as Likes object
+* ``` reposts ``` - as Reposts object
+* ``` views ``` - as Views object
+* !!!!!!!!!!!``` post_source ``` - 
+* ``` post_type ``` - string
+* ``` attachments ``` - as List of Attachment
+* ``` geo ``` - as Geo object
+* ``` signer_id ``` - as int
+* ``` can_pin ``` - int
+* ``` can_delete ``` - int
+* ``` can_edit ``` - int
+* ``` is_pinned ``` - int
+* ``` is_favorite ``` - bool
+* ``` donut ``` - donut object
+* ``` postponed_id ``` - int
+* ``` copy_history ``` - as List of Post_Item objects
+## Group_Item
+### Fields
+* ``` id ``` - int
+* ``` name ``` - name of group as string
+* ``` screen_name ``` - string
+* ``` is_closed ``` - 1 if closed, 0 if not
+* ``` deactivated ``` - string
+* ``` is_admin ``` - int
+* ``` admin_level ``` - int
+* ``` is_member ``` - int
+* ``` is_advertised ``` - int
+* ``` type ``` - string
+* ``` photo_50 ``` - link as string
+* ``` photo_100 ``` - link as string
+* ``` photo_200 ``` - link as string
+* ``` members_count ``` - int
+* ``` description ``` - string
+* ``` activity ``` - string
+## Likes
+### Fields 
+* ``` count ``` - int
+* ``` user_likes ``` - 1 if user likes, 0 if not
+## Views
+### Fields
+* ```count``` - int
+## Reposts
+### Fields
+* ``` count ``` - int
+* ``` wall_count ``` - count of reposts on the wall
+* ``` mail_count ``` - count of reposts in mail
+* ``` user_reposted ``` - 1 if user reposted, 0 if not
+## Comm_Item
+### Fields
+* ``` id ``` - int
+* ``` from_id ``` - user id
+* ``` date ``` - int
+* ``` text ``` - string
+* ``` donut ``` - donut object
+* ``` reply_to_user ``` - user id as int
+* ``` reply_to_post ``` - post id as int
+* ``` attachments ``` - List of Attachment objects
+* ``` parent_stack ``` - List if Comm_Item
+* ``` thread ``` - Thread object
+## Attachment
+### Fields
+* ```  ```
