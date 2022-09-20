@@ -225,7 +225,7 @@ namespace vkAPIhelper
             return posts_arr;
         }
 
-        //вот ети все можно каким-нибудь способом сшить в один метод, но пока так)
+        
         public async Task<int[]> get_top_liked(HttpClient client, string owner_id = "", string domain = "imct_fefu")
         {
             uint all = (uint)await get_posts_count(client); //variable that need to be delete, because soon, all posts will be getting
