@@ -58,8 +58,8 @@ public async Task<string> get_posts_json
 ## Post_Item
 ### Fields
 * ``` id ``` - id of post as int
-* ``` from_id ``` - 
-* ``` created_id ``` - 
+* ``` from_id ``` - int
+* ``` created_id ``` - int
 * ``` date ``` - date of create
 * ``` marked_as_ads ``` - 1 if marked, 0 if not
 * ``` text ``` - text in post
@@ -67,11 +67,11 @@ public async Task<string> get_posts_json
 * ``` reply_post_id ``` - if reply on other post
 * ``` friends_only ``` - vision
 * ``` comments ``` - branch of main comments, without comment tree
-* !!!!!!!!!!! ``` copyrght ``` - 
+* ``` copyrght ``` - object
 * ``` likes ``` - as Likes object
 * ``` reposts ``` - as Reposts object
 * ``` views ``` - as Views object
-* !!!!!!!!!!!``` post_source ``` - 
+* ``` post_source ``` - object
 * ``` post_type ``` - string
 * ``` attachments ``` - as List of Attachment
 * ``` geo ``` - as Geo object
