@@ -129,4 +129,67 @@ public async Task<string> get_posts_json
 * ``` thread ``` - Thread object
 ## Attachment
 ### Fields
-* ```  ```
+* ``` type ``` - string
+* ``` photo ``` - Photo object
+* ``` posted_photo ``` - object
+* ``` audio ``` - object
+* ``` video ``` - object
+* ``` doc ``` - object
+* ``` graffiti ``` - object
+* ``` link ``` - object
+* ``` note ``` - object
+* ``` app ``` - object
+* ``` poll ``` - object
+* ``` page ``` - object
+* ``` album ``` - object
+* ``` photos_list ``` - array of links as strings
+* ``` market ``` - object
+* ``` market_album ``` - object
+* ``` sticker ``` - object
+* ``` pretty_cards ``` - object
+* ``` event ``` - object
+## Photo : Attachment
+### Fields
+* ``` id ``` - int
+* ``` owner_id ``` - int 
+* ``` user_id ``` - int 
+* ``` album_id ``` - int 
+* ``` text ``` - string
+* ``` date ``` - int
+* ``` sizes ``` - List of Photo_Sizes objects
+* ``` width ``` - int
+* ``` height ``` - int
+## Photo_Sizes
+### Fields
+* ``` type ``` - string
+* ``` url ``` - string
+* ``` width ``` - int
+* ``` height ``` - int
+## Geo
+### Fields
+* ``` type ``` - string
+* ``` coordinates ``` - string
+* ``` place ``` - Place object
+## Place
+### Fields
+* ``` id ``` - int
+* ``` title ``` - string
+* ``` latitude ``` - int
+* ``` longitude ``` - int
+* ``` created ``` - int
+* ``` icon ``` - string
+* ``` checkins ``` - int 
+* ``` updated ``` - int
+* ``` type ``` - int
+* ``` country ``` - int
+* ``` city ``` - int
+* ``` address ```- string
+## Thread
+### Fields
+* ``` count ``` - int
+* ``` items ``` - List of Comm_Item objects
+* ``` can_post ``` - bool
+* ``` show_reply_button ``` - bool
+* ``` group_can_post ``` - bool
+## detailed documentation from VK
+https://dev.vk.com/reference
